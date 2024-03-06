@@ -12,9 +12,8 @@ $tanggal_filter = isset($_GET['tanggal_filter']) ? $_GET['tanggal_filter'] : '';
 $filter_query = "";
 
 // Periksa jika terdapat filter kasir yang dipilih
-if (!empty($tanggal_filter)) {
-    // Jika sudah ada filter sebelumnya, tambahkan kondisi 'AND', jika tidak tambahkan 'WHERE'
-    $filter_query .= !empty($filter_query) ? " AND waktu_transaksi LIKE '%$tanggal_filter%'" : " WHERE waktu_transaksi LIKE '%$tanggal_filter%'";
+if (!empty($kasir_filter)) {
+    $filter_query .= " WHERE iduser = '$kasir_filter'";
 }
 
 // Periksa jika terdapat filter tanggal yang dipilih
@@ -63,14 +62,15 @@ if ($total_produk != 0) {
     $persentase_terjual = ($total_terjual / $total_produk) * 100;
 }
 
-function getKasirName($iduser, $c) {
+function getKasirName($iduser, $c)
+{
     $query = "SELECT username FROM login WHERE iduser = $iduser"; // Sesuaikan dengan nama tabel dan kolom yang benar
     $result = mysqli_query($c, $query);
     if ($result && mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         return $row['username'];
     } else {
-        return "Unknown";
+        return "Tidak Diketahui";
     }
 }
 
@@ -112,7 +112,7 @@ function getKasirName($iduser, $c) {
             <div class="sidebar-heading">
                 Menu
             </div>
-           <!-- Nav Item - Tables -->
+            <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="index.php">
                     <i class="fas fa-tachometer-alt fa-fw"></i>
@@ -188,15 +188,12 @@ function getKasirName($iduser, $c) {
                         <div class="topbar-divider d-none d-sm-block"></div>
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 big"><?php echo $_SESSION['username']; ?></span>
-                                <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Logout
@@ -214,9 +211,9 @@ function getKasirName($iduser, $c) {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Terjual</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_terjual; ?></div>
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Terjual</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $total_terjual; ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -231,9 +228,9 @@ function getKasirName($iduser, $c) {
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            Pendapatan</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?></div>
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                Pendapatan</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp <?php echo number_format($total_pendapatan, 0, ',', '.'); ?></div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -253,14 +250,12 @@ function getKasirName($iduser, $c) {
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
                                                     <?php
-                                                echo "<div class='h5 mb-0 mr-3 font-weight-bold text-gray-800'>" . number_format($persentase_terjual, 0) . "%</div>";
-                                                ?>
+                                                    echo "<div class='h5 mb-0 mr-3 font-weight-bold text-gray-800'>" . number_format($persentase_terjual, 0) . "%</div>";
+                                                    ?>
                                                 </div>
                                                 <div class="col">
                                                     <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
+                                                        <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -271,7 +266,7 @@ function getKasirName($iduser, $c) {
                                     </div>
                                 </div>
                             </div>
-                        </div>  
+                        </div>
                     </div>
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -279,7 +274,7 @@ function getKasirName($iduser, $c) {
                             <h6 class="m-0 font-weight-bold text-primary">Data Laporan</h6>
                         </div>
                         <div class="card-body">
-                            <form action="" method="GET">
+                            <form action="export_laporan.php" method="GET">
                                 <div class="form-row align-items-center">
                                     <!-- Filter berdasarkan tanggal -->
                                     <div class="col-auto">
@@ -288,42 +283,47 @@ function getKasirName($iduser, $c) {
                                     </div>
                                     <!-- Filter berdasarkan nama kasir -->
                                     <div class="col-auto">
-                                    <label class="sr-only" for="kasir">Pilih Kasir</label>
-                                    <select class="form-control mb-2" id="kasir" name="kasir_filter">
-                                        <option value="" <?php echo empty($kasir_filter) ? 'selected' : ''; ?>>Tampilkan Semua</option>
-                                        <?php
-                                        // Ambil data kasir dari tabel login dengan peran "kasir"
-                                        $queryKasir = "SELECT iduser, username FROM login WHERE role = 'kasir'";
-                                        $resultKasir = mysqli_query($c, $queryKasir);
-                                        while ($rowKasir = mysqli_fetch_assoc($resultKasir)) {
-                                            $selected = ($kasir_filter == $rowKasir['iduser']) ? 'selected' : ''; // Tandai yang dipilih
-                                            echo "<option value='{$rowKasir['iduser']}' {$selected}>{$rowKasir['username']}</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
+                                        <label class="sr-only" for="kasir">Pilih Kasir</label>
+                                        <select class="form-control mb-2" id="kasir" name="kasir_filter">
+                                            <option value="" <?php echo empty($kasir_filter) ? 'selected' : ''; ?>>Tampilkan Semua</option>
+                                            <?php
+                                            // Ambil data kasir dari tabel login dengan peran "kasir"
+                                            $queryKasir = "SELECT iduser, username FROM login WHERE role = 'kasir'";
+                                            $resultKasir = mysqli_query($c, $queryKasir);
+                                            while ($rowKasir = mysqli_fetch_assoc($resultKasir)) {
+                                                $selected = ($kasir_filter == $rowKasir['iduser']) ? 'selected' : ''; // Tandai yang dipilih
+                                                echo "<option value='{$rowKasir['iduser']}' {$selected}>{$rowKasir['username']}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                     <!-- Tombol untuk melakukan filter -->
                                     <div class="col-auto">
                                         <button type="submit" class="btn btn-primary mb-2">Filter</button>
                                     </div>
+                                    <!-- tombol untuk melakukan cetak laporan -->
+                                    <div class="col-auto">
+                                        <a href="export_excel.php?cetak" class="btn btn-danger mb-2">Cetak</a>
+                                    </div>
                                 </div>
                             </form>
+
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Kasir</th>
-                                    <th>Nama Pelanggan</th>
-                                    <th>Produk</th>
-                                    <th>Jumlah</th>
-                                    <th>SubTotal</th>
-                                    <th>Pembayaran</th>
-                                    <th>Kembalian</th>
-                                    <th>Tanggal</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama Kasir</th>
+                                            <th>Nama Pelanggan</th>
+                                            <th>Produk</th>
+                                            <th>Jumlah</th>
+                                            <th>SubTotal</th>
+                                            <th>Pembayaran</th>
+                                            <th>Kembalian</th>
+                                            <th>Tanggal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         <?php
                                         // Ambil data transaksi dari database dan tampilkan dalam tabel
                                         $queryGetTransaksi = "SELECT * FROM laporan" . $filter_query;
@@ -344,8 +344,8 @@ function getKasirName($iduser, $c) {
                                             $counter++;
                                         }
                                         ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -371,8 +371,7 @@ function getKasirName($iduser, $c) {
         <i class="fas fa-angle-up"></i>
     </a>
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

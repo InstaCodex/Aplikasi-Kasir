@@ -20,6 +20,14 @@ require "../ceklogin.php";
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .table td, table th {
+            padding: 0.40rem;
+        }
+        .table {
+            font-size: 15px;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -178,11 +186,11 @@ require "../ceklogin.php";
                                                 <td><?= $tgl_input; ?></td>
                                                 <td>
                                                     <!-- Tombol untuk membuka modal edit -->
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editProduk<?= $kode_produk; ?>">
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editProduk<?= $kode_produk; ?>">
                                                         Edit
                                                     </button>
                                                     <!-- Tombol untuk membuka modal hapus -->
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapusProduk<?= $kode_produk; ?>">
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusProduk<?= $kode_produk; ?>">
                                                         Hapus
                                                     </button>
                                                 </td>

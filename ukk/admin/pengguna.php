@@ -20,6 +20,17 @@ require "../ceklogin.php";
     <link href="css/sb-admin-2.css" rel="stylesheet">
     <!-- Custom styles for this page -->
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .table td , table th {
+            padding: 0.50rem;
+        }
+        .table{
+            font-size: 14px;
+        }
+        .table-responsive {
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -147,7 +158,6 @@ require "../ceklogin.php";
                                         <tr>
                                             <th>No</th>
                                             <th>Username</th>
-                                            <th>Password</th>
                                             <th>Role</th>
                                             <th>Opsi</th>
                                         </tr>
@@ -167,15 +177,14 @@ require "../ceklogin.php";
                                             <tr>
                                                 <td><?= $i++; ?></td>
                                                 <td><?= $username; ?></td>
-                                                <td><?= $password; ?></td>
                                                 <td><?= $role; ?></td>
                                                 <td>
                                                     <!-- Tombol untuk membuka modal edit -->
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editPengguna<?= $iduser; ?>">
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPengguna<?= $iduser; ?>">
                                                         Edit
                                                     </button>
                                                     <!-- Tombol untuk membuka modal hapus -->
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapuspengguna<?= $iduser; ?>">
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapuspengguna<?= $iduser; ?>">
                                                         Hapus
                                                     </button>
                                                 </td>

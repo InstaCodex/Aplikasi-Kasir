@@ -70,8 +70,25 @@ if (isset($_POST['TambahProduk'])) {
     // Lakukan pengecekan apakah kode produk atau nama produk sudah ada dalam database
     $cek_produk = mysqli_query($c, "SELECT * FROM produk WHERE kode_produk = '$kode_produk' OR nama_produk = '$nama_produk'");
     if (mysqli_num_rows($cek_produk) > 0) {
-        // Jika sudah ada, tampilkan pesan kesalahan
-        echo "<script>alert('Kode Produk atau Nama Produk sudah ada. Silakan coba lagi.');</script>";
+        // Jika sudah ada, ambil data produk yang konflik
+        $row = mysqli_fetch_assoc($cek_produk);
+        $existing_kode_produk = $row['kode_produk'];
+        $existing_nama_produk = $row['nama_produk'];
+
+        // Tentukan pesan pop-up yang sesuai tergantung pada konflik data
+        $pesan = "";
+        if ($existing_kode_produk == $kode_produk && $existing_nama_produk == $nama_produk) {
+            $pesan = "Kode Produk dan Nama Produk sudah ada.";
+        } elseif ($existing_kode_produk == $kode_produk) {
+            $pesan = "Kode Produk sudah ada.";
+        } elseif ($existing_nama_produk == $nama_produk) {
+            $pesan = "Nama Produk sudah ada.";
+        } else {
+            $pesan = "Produk sudah ada dalam database.";
+        }
+
+        // Tampilkan pesan kesalahan
+        echo "<script>alert('$pesan Silakan coba lagi.');</script>";
     } else {
         // Jika belum ada, lanjutkan proses penyimpanan data ke database
         $harga_modal = $_POST['harga_modal'];
@@ -269,44 +286,3 @@ if(isset($_POST['hapuspenggunanew'])){
         ';
     }
 };
-
-// if (isset($_POST['TambahProduk'])) {
-//         $kode_produk = $_POST['kode_produk'];
-//         $nama_produk = $_POST['nama_produk'];
-    
-//         // Lakukan pengecekan apakah kode produk atau nama produk sudah ada dalam database
-//         $cek_produk = mysqli_query($c, "SELECT * FROM produk WHERE kode_produk = '$kode_produk' OR nama_produk = '$nama_produk'");
-//         if (mysqli_num_rows($cek_produk) > 0) {
-//             // Jika sudah ada, ambil data produk yang konflik
-//             $row = mysqli_fetch_assoc($cek_produk);
-//             $existing_kode_produk = $row['kode_produk'];
-//             $existing_nama_produk = $row['nama_produk'];
-    
-//             // Tentukan pesan pop-up yang sesuai tergantung pada konflik data
-//             $pesan = "";
-//             if ($existing_kode_produk == $kode_produk && $existing_nama_produk == $nama_produk) {
-//                 $pesan = "Kode Produk dan Nama Produk sudah ada.";
-//             } elseif ($existing_kode_produk == $kode_produk) {
-//                 $pesan = "Kode Produk sudah ada.";
-//             } elseif ($existing_nama_produk == $nama_produk) {
-//                 $pesan = "Nama Produk sudah ada.";
-//             } else {
-//                 $pesan = "Produk sudah ada dalam database.";
-//             }
-    
-//             // Tampilkan pesan kesalahan
-//             echo "<script>alert('$pesan Silakan coba lagi.');</script>";
-//         } else {
-//             // Jika belum ada, lanjutkan proses penyimpanan data ke database
-//             $harga_modal = $_POST['harga_modal'];
-//             $harga_jual = $_POST['harga_jual'];
-    
-//             // Lakukan penyimpanan data ke dalam database
-//             $insert_produk = mysqli_query($c, "INSERT INTO produk (kode_produk, nama_produk, harga_modal, harga_jual) VALUES ('$kode_produk', '$nama_produk', '$harga_modal', '$harga_jual')");
-//             if ($insert_produk) {
-//                 echo "<script>alert('Produk berhasil ditambahkan.');</script>";
-//             } else {
-//                 echo "<script>alert('Gagal menambahkan produk.');</script>";
-//             }
-//         }
-//     }

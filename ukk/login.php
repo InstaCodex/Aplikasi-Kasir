@@ -8,7 +8,7 @@ require "functions.php";
 <html lang="en">
 <head>
   <link rel="stylesheet" href="style.css">
-  <title>Login To Website Kasie</title>
+  <title>Login To Website Kasir</title>
 </head>
 <body>
     <section>
